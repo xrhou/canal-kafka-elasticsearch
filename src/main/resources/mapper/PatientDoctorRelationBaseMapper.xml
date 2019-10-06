@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yibao.canaldemo.dao.mapper.PatientDoctorRelationBaseMapper">
+
+    <!--实体映射-->
+    <resultMap id="BaseResultMap" type="com.yibao.canaldemo.dao.entity.PatientDoctorRelationDO">
+        <!--自增ID-->
+        <result column="id" property="id"/>
+        <!--是否删除（0:未删除 1:已删除）-->
+        <result column="is_deleted" property="isDeleted"/>
+        <!--记录创建时间-->
+        <result column="create_time" property="createTime"/>
+        <!--记录修改时间-->
+        <result column="modify_time" property="modifyTime"/>
+        <!--创建人,0表示无创建人值-->
+        <result column="creator" property="creator"/>
+        <!--修改人,如果为0则表示纪录未修改-->
+        <result column="modifier" property="modifier"/>
+        <!--患者ID-->
+        <result column="patient_id" property="patientId"/>
+        <!--医生ID-->
+        <result column="doctor_id" property="doctorId"/>
+        <!--关系来源（1:扫码关注 2:服务订单）-->
+        <result column="source_type" property="sourceType"/>
+    </resultMap>
+
+    <!-- 通用查询结果列-->
+    <sql id="BaseColumn">
+        <trim suffixOverrides=",">
+            `id`,
+            `is_deleted`,
+            `create_time`,
+            `modify_time`,
+            `creator`,
+            `modifier`,
+            `patient_id`,
+            `doctor_id`,
+            `source_type`,
+        </trim>
+    </sql>
+
+    <!-- 动态条件 -->
+    <sql id="QueryCondition">
+        <where>
+            <if test="id != null">
+                AND `id` = #{id}
+            </if>
+            <if test="idList != null">
+                AND `id` IN
+                <foreach collection="idList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="isDeleted != null">
+                AND `is_deleted` = #{isDeleted}
+            </if>
+            <if test="createTime != null">
+                AND `create_time` = #{createTime}
+            </if>
+            <if test="modifyTime != null">
+                AND `modify_time` = #{modifyTime}
+            </if>
+            <if test="patientId != null">
+                AND `patient_id` = #{patientId}
+            </if>
+            <if test="patientIdList != null">
+                AND `patient_id` IN
+                <foreach collection="patientIdList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="doctorId != null">
+                AND `doctor_id` = #{doctorId}
+            </if>
+            <if test="doctorIdList != null">
+                AND `doctor_id` IN
+                <foreach collection="doctorIdList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="sourceType != null">
+                AND `source_type` = #{sourceType}
+            </if>
+            <if test="sourceTypeList != null">
+                AND `source_type` IN
+                <foreach collection="sourceTypeList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+    <insert id="insertSelective" parameterType="com.yibao.canaldemo.dao.entity.PatientDoctorRelationDO"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `yb_patient_doctor_relation`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                `id`,
+            </if>
+            <if test="isDeleted != null">
+                `is_deleted`,
+            </if>
+            <if test="createTime != null">
+                `create_time`,
+            </if>
+            <if test="modifyTime != null">
+                `modify_time`,
+            </if>
+            <if test="creator != null">
+                `creator`,
+            </if>
+            <if test="modifier != null">
+                `modifier`,
+            </if>
+            <if test="patientId != null">
+                `patient_id`,
+            </if>
+            <if test="doctorId != null">
+                `doctor_id`,
+            </if>
+            <if test="sourceType != null">
+                `source_type`,
+            </if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime},
+            </if>
+            <if test="creator != null">
+                #{creator},
+            </if>
+            <if test="modifier != null">
+                #{modifier},
+            </if>
+            <if test="patientId != null">
+                #{patientId},
+            </if>
+            <if test="doctorId != null">
+                #{doctorId},
+            </if>
+            <if test="sourceType != null">
+                #{sourceType},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.yibao.canaldemo.dao.entity.PatientDoctorRelationDO">
+        UPDATE `yb_patient_doctor_relation`
+        <set>
+            <if test="isDeleted != null">
+                `is_deleted` = #{isDeleted},
+            </if>
+            <if test="createTime != null">
+                `create_time` = #{createTime},
+            </if>
+            <if test="modifyTime != null">
+                `modify_time` = #{modifyTime},
+            </if>
+            <if test="creator != null">
+                `creator` = #{creator},
+            </if>
+            <if test="modifier != null">
+                `modifier` = #{modifier},
+            </if>
+            <if test="patientId != null">
+                `patient_id` = #{patientId},
+            </if>
+            <if test="doctorId != null">
+                `doctor_id` = #{doctorId},
+            </if>
+            <if test="sourceType != null">
+                `source_type` = #{sourceType},
+            </if>
+        </set>
+        WHERE `id` = #{id}
+    </update>
+
+    <select id="selectByCondition" resultMap="BaseResultMap"
+            parameterType="com.yibao.canaldemo.dao.entity.builder.PatientDoctorRelationConditionBuilder">
+        SELECT
+        <include refid="BaseColumn"/>
+        FROM `yb_patient_doctor_relation`
+        <include refid="QueryCondition"/>
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+        <include refid="BaseColumn"/>
+        FROM `yb_patient_doctor_relation`
+        WHERE `id` = #{id}
+    </select>
+</mapper>
