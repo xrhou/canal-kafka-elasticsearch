@@ -78,7 +78,7 @@ MysqlEventParser ---> new SlaveEntryPosition(binlog, Long.valueOf(position), mas
 
 最后解析为: CanalEntry.Entry
 
-2.Kafka动态配置topic配置文件:
+2.Kafka动态topic配置文件:
 >MQMessageUtils ---> 
 ```
  public static boolean matchDynamicTopic(String name, String dynamicTopicConfigs) {
